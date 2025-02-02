@@ -63,7 +63,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: httpd-base.azdevopsb82.online
+    - host: httpd-base.azdevops2704.online
       http:
         paths:
           - path: /
@@ -81,7 +81,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: nginx-base.azdevopsb82.online
+    - host: nginx-base.azdevops2704.online
       http:
         paths:
           - path: /
