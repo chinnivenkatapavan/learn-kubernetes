@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: topology-20
+  labels:
+    app: nginx
+    name: topology-20
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+      name: topology-20
+  strategy:
+    rollingUpdate:
+      maxSurge: 1%
+      maxUnavailable: 1%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: nginx
+        name: topology-20
+    spec:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          minDomains: 1
+          topologyKey: disktype
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              name: topology-20
+          nodeAffinityPolicy: Ignore # optional; beta since v1.26
+          nodeTaintsPolicy: Ignore # optional; beta since v1.2
+      containers:
+        - name: noude-autoscaler
+          image: rkalluru/debug
