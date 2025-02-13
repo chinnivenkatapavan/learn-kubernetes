@@ -38,7 +38,7 @@ spec:
 ---
 ## To expose a set of Pods to other services within the cluster or to external traffic, depending on its type
 apiVersion: v1
-kind: service
+kind: Service
 metadata:
   name: cart
 spec:
