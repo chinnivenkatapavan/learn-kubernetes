@@ -1,4 +1,4 @@
-#  key-value store used to manage configuration data in Kubernetes
+##  key-value store used to manage configuration data in Kubernetes
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -12,7 +12,7 @@ data:
   SCHEMA_FILE: "db/master-data.js"
 
 ---
-# Deploy and manage your application in a containerized environment
+## Deploy and manage your application in a containerized environment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -38,7 +38,7 @@ spec:
             - configMapRef:
                 name: catalogue
 ---
-# To expose a set of Pods to other services within the cluster or to external traffic, depending on its type
+## To expose a set of Pods to other services within the cluster or to external traffic, depending on its type
 apiVersion: v1
 kind: Service
 metadata:
