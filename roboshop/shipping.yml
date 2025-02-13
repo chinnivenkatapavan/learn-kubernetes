@@ -4,8 +4,12 @@ kind: ConfigMap
 metadata:
   name: shipping
 data:
+  APP_GIT_URL: "https://github.com/roboshop-devops-project-v3/shipping"
   CART_ENDPOINT: "cart:8080"
   DB_HOST: "mysql-dev.azdevops2704.online"
+  DB_PASS: "RoboShop@1"
+  DB_TYPE: "mysql"
+  DB_USER: "root"
 
 ---
 # Deploy and manage your application in a containerized environment
@@ -51,15 +55,56 @@ spec:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: shipping-schema
+  name: shipping-schema-app-user
 spec:
   template:
     spec:
       containers:
-        - name: shipping-schema
+        - name: shipping-schema-app-user
           image: public.ecr.aws/w8x4g9h7/roboshop-v3/schema-load
+          env:
+            - name: SCHEMA_FILE
+              value: "db/app-user.sql"
           envFrom:
-            - configMapRef:
+            - secretRef:
+                name: shipping
+      restartPolicy: Never
+  backoffLimit: 1
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: shipping-schema-schema
+spec:
+  template:
+    spec:
+      containers:
+        - name: shipping-schema-schema
+          image: public.ecr.aws/w8x4g9h7/roboshop-v3/schema-load
+          env:
+            - name: SCHEMA_FILE
+              value: "db/schema.sql"
+          envFrom:
+            - secretRef:
+                name: shipping
+      restartPolicy: Never
+  backoffLimit: 1
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: shipping-schema-master-data
+spec:
+  template:
+    spec:
+      containers:
+        - name: shipping-schema-master-data
+          image: public.ecr.aws/w8x4g9h7/roboshop-v3/schema-load
+          env:
+            - name: SCHEMA_FILE
+              value: "db/master-data.sql"
+          envFrom:
+            - secretRef:
                 name: shipping
       restartPolicy: Never
   backoffLimit: 1
