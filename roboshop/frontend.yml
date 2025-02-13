@@ -1,3 +1,4 @@
+#  key-value store used to manage configuration data in Kubernetes
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -13,10 +14,9 @@ data:
   SHIPPING_PORT: 8080
   PAYMENT_HOST: payment
   PAYMENT_PORT: 8080
-  envFrom:
-    - configMapRef:
-        name: frontend
+
 ---
+# Deploy and manage your application in a containerized environment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -38,13 +38,18 @@ spec:
           image: public.ecr.aws/w8x4g9h7/roboshop-v3/frontend
           ports:
             - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: frontend
+
 ---
+# To expose a set of Pods to other services within the cluster or to external traffic, depending on its type
 apiVersion: v1
 kind: Service
 metadata:
   name: frontend
 spec:
-  type: LoadBalancer
+  type: LoadBalancer # cloud will create a Ip address to expose the outside
   selector:
     app: frontend
   ports:

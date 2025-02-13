@@ -1,0 +1,65 @@
+#  key-value store used to manage configuration data in Kubernetes
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shipping
+data:
+  CART_ENDPOINT: "cart:8080"
+  DB_HOST: "mysql-dev.azdevops2704.online"
+
+---
+# Deploy and manage your application in a containerized environment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shipping
+  labels:
+    app: shipping
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shipping
+  template:
+    metadata:
+      labels:
+        app: shipping
+    spec:
+      containers:
+        - name: shipping
+          image: public.ecr.aws/w8x4g9h7/roboshop-v3/shipping
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: shipping
+---
+# To expose a set of Pods to other services within the cluster or to external traffic, depending on its type
+apiVersion: v1
+kind: Service
+metadata:
+  name: shipping
+spec:
+  selector:
+  app: shipping
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+# A Job is used to run a specific task or script to completion, such as database schema migrations, data processing, or batch tasks
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: shipping-schema
+spec:
+  template:
+    spec:
+      containers:
+        - name: shipping-schema
+          image: public.ecr.aws/w8x4g9h7/roboshop-v3/schema-load
+          envFrom:
+            - configMapRef:
+                name: shipping
+      restartPolicy: Never
+  backoffLimit: 1

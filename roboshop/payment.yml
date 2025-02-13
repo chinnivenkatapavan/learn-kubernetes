@@ -1,0 +1,53 @@
+#  key-value store used to manage configuration data in Kubernetes
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: payment
+data:
+  AMQP_HOST: "rabbitmq-dev.azdevops2704.online"
+  AMQP_PASS: "roboshop123"
+  AMQP_USER: "roboshop"
+  CART_HOST: "cart-DEV.azdevops2704.online"
+  CART_PORT: "8080"
+  USER_HOST: "user-dev.azdevops2704.online"
+  USER_PORT: "8080"
+
+---
+# Deploy and manage your application in a containerized environment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment
+  labels:
+    app: payment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment
+  template:
+    metadata:
+      labels:
+        app: payment
+    spec:
+      containers:
+        - name: payment
+          image: public.ecr.aws/w8x4g9h7/roboshop-v3/payment
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: payment
+---
+# To expose a set of Pods to other services within the cluster or to external traffic, depending on its type
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment
+spec:
+  selector:
+  app: payment
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
