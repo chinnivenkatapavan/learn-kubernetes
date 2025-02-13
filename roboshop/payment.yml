@@ -46,7 +46,7 @@ metadata:
   name: payment
 spec:
   selector:
-  app: payment
+    app: payment
   ports:
     - protocol: TCP
       port: 8080

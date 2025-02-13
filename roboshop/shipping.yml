@@ -45,7 +45,7 @@ metadata:
   name: shipping
 spec:
   selector:
-  app: shipping
+    app: shipping
   ports:
     - protocol: TCP
       port: 8080

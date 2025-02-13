@@ -45,7 +45,7 @@ metadata:
   name: catalogue
 spec:
   selector:
-  app: catalogue
+    app: catalogue
   ports:
     - protocol: TCP
       port: 8080
