@@ -4,12 +4,12 @@ kind: ConfigMap
 metadata:
   name: catalogue
 data:
-  APP_GIT_URL: "https://github.com/roboshop-devops-project-v3/catalogue"
-  DB_HOST: "mongodb-dev.azdevops2704.online"
-  DB_TYPE: "mongo"
-  MONGO: "true"
-  MONGO_URL: "mongodb://mongodb-dev.azdevops2704.online:27017/catalogue"
-  SCHEMA_FILE: "db/master-data.js"
+  APP_GIT_URL: https://github.com/roboshop-devops-project-v3/catalogue
+  DB_HOST: mongodb-dev.azdevops2704.online
+  DB_TYPE: mongo
+  MONGO: true
+  MONGO_URL: mongodb://mongodb-dev.azdevops2704.online:27017/catalogue
+  SCHEMA_FILE: db/master-data.js
 
 ---
 ## Deploy and manage your application in a containerized environment
