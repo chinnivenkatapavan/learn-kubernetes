@@ -4,7 +4,7 @@ kind: ConfigMap
 metadata:
   name: user
 data:
-  MONGO: "true",
+  MONGO: "true"
   MONGO_URL: "mongodb://mongodb-dev.azdevops2704.online:27017/users"
   REDIS_URL: "redis://redis-dev.azdevops2704.online:6379"
 
