@@ -4,9 +4,9 @@ kind: ConfigMap
 metadata:
   name: cart
 data:
-  CATALOGUE_HOST: "catalogue-dev.azdevops2704.online"
+  CATALOGUE_HOST: catalogue-dev.azdevops2704.online
   CATALOGUE_PORT: "8080" # In kubernetes nums should be ""
-  REDIS_HOST: "redis-dev.azdevops2704.online"
+  REDIS_HOST: redis-dev.azdevops2704.online
 
 ---
 # Deploy and manage your application in a containerized environment
