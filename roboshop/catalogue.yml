@@ -1,16 +1,30 @@
 ##  key-value store used to manage configuration data in Kubernetes
-apiVersion: v1
-kind: ConfigMap
+#apiVersion: v1
+#kind: ConfigMap
+#metadata:
+#  name: catalogue
+#data:
+#  APP_GIT_URL: "https://github.com/roboshop-devops-project-v3/catalogue"
+#  DB_HOST: "mongodb-dev.azdevops2704.online"
+#  DB_TYPE: "mongo"
+#  MONGO: "true"
+#  MONGO_URL: "mongodb://mongodb-dev.azdevops2704.online:27017/catalogue"
+#  SCHEMA_FILE: "db/master-data.js"
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
 metadata:
   name: catalogue
-data:
-  APP_GIT_URL: "https://github.com/roboshop-devops-project-v3/catalogue"
-  DB_HOST: "mongodb-dev.azdevops2704.online"
-  DB_TYPE: "mongo"
-  MONGO: "true"
-  MONGO_URL: "mongodb://mongodb-dev.azdevops2704.online:27017/catalogue"
-  SCHEMA_FILE: "db/master-data.js"
-
+spec:
+  refreshInterval: "5s"
+  secretStoreRef:
+    name: vault-backend
+    kind: SecretStore
+  target:
+    name: catalogue
+  dataFrom:
+    - extract:
+        key: catalogue
 ---
 ## Deploy and manage your application in a containerized environment
 apiVersion: apps/v1
@@ -35,7 +49,7 @@ spec:
           ports:
             - containerPort: 8080
           envFrom:
-            - configMapRef:
+            - secretRef:
                 name: catalogue
 ---
 ## To expose a set of Pods to other services within the cluster or to external traffic, depending on its type
@@ -64,7 +78,7 @@ spec:
         - name: catalogue-schema
           image: public.ecr.aws/w8x4g9h7/roboshop-v3/schema-load
           envFrom:
-            - configMapRef:
+            - secretRef:
                 name: catalogue
       restartPolicy: Never
   backoffLimit: 1

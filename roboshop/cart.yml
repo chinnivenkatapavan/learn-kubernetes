@@ -1,13 +1,27 @@
 ##  key-value store used to manage configuration data in Kubernetes
-apiVersion: v1
-kind: ConfigMap
+#apiVersion: v1
+#kind: ConfigMap
+#metadata:
+#  name: cart
+#data:
+#  CATALOGUE_HOST: "catalogue-dev.azdevops2704.online"
+#  CATALOGUE_PORT: "8080" # In kubernetes nums should be ""
+#  REDIS_HOST: "redis-dev.azdevops2704.online"
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
 metadata:
   name: cart
-data:
-  CATALOGUE_HOST: "catalogue-dev.azdevops2704.online"
-  CATALOGUE_PORT: "8080" # In kubernetes nums should be ""
-  REDIS_HOST: "redis-dev.azdevops2704.online"
-
+spec:
+  refreshInterval: "5s"
+  secretStoreRef:
+    name: vault-backend
+    kind: SecretStore
+  target:
+    name: cart
+  dataFrom:
+    - extract:
+        key: cart
 ---
 ## Deploy and manage your application in a containerized environment
 apiVersion: apps/v1
@@ -32,7 +46,7 @@ spec:
           ports:
             - containerPort: 8080
           envFrom:
-            - configMapRef:
+            - secretRef:
                 name: cart
 
 ---
