@@ -1,0 +1,2 @@
+podName: nginx
+image: nginx
