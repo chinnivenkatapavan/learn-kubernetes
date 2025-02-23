@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: {{ .values.podName }} # accessing variable in values.yml file
+  name: {{ .values.podName }} # accessing variable in Values.yml file
 spec:
   containers:
     - name: nginx
-      image: {{ .values.image }} # accessing image variable in values.yml file
+      image: {{ .values.image }} # accessing image variable in Values.yml file
       ports:
         - containerPort: 80
