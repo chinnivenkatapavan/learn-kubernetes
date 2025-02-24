@@ -1,0 +1,15 @@
+    {{ if .Values.debugPod.enabled }}
+  apiVersion: v1
+  kind: Pod
+  metadata:
+    name: debug-{{ .values.podName }} # accessing variable in Values.yml file
+  spec:
+    containers:
+      - name: debug
+        image: rkallur/debug # accessing image variable in Values.yml file
+        ports:
+          - containerPort: 80
+{{ end }}
+
+
+
