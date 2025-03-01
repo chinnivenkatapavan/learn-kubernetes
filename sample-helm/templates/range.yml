@@ -1,0 +1,13 @@
+{{- if .Values.debugPod.enabled }}
+  {{- range .Values.extraPods }}
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ .name }}
+spec:
+  containers:
+    - name: nginx
+      image: {{ $.Values.image }}
+      ports:
+        - containerPort: {{ .port }} {{- end }} {{- end }}
