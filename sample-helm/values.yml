@@ -1,4 +1,4 @@
-
+#podName: nginx
 image: nginx
 
 debugPod:
