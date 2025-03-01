@@ -3,3 +3,13 @@ image: nginx
 
 debugPod:
   enabled: true
+
+favorite:
+  drink: coke
+  food: fries
+
+extraPods:
+  - name: nginx1
+    port: 100
+  - name: nginx2
+    port: 200
