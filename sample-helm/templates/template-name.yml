@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: templatename-configmap
+data:
+  name: {{ .Template.Name }}
+  path: {{ .Template.BasePath }}
